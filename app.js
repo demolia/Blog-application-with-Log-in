@@ -123,6 +123,29 @@ app.get('/personalblog', function (request, response) {
 })
 
 
+app.post('/sign', bodyParser.urlencoded({extended: true}), function (request, response) {
+	if (request.body.name.length === 0) {
+			response.redirect('/?message=' + encodeURIComponent("Please fill out your name."));
+			return;
+	}
+	if(request.body.email.length === 0) {
+		response.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
+		return;
+	}
+
+	if(request.body.password.length === 0) {
+		response.redirect('/?message=' + encodeURIComponent("Please fill out your password."));
+		return;
+	}
+		Person.create({
+            name: request.body.name,
+            email: request.body.email,
+            password: request.body.password 
+        }).then ( register => {
+        	response.send('You are Now Officially a BlogsAlotter!')
+        })
+})
+
 // Creating users for the database
 db.sync ( {force: true} ).then( () => {
 	console.log ( 'Synced')
