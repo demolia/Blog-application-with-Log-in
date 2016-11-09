@@ -26,23 +26,22 @@ html
 						div#topcard.card
 							div.card-content.z-depth-5
 								p
-									a(href="/guestbook") See here the guestbook             	   
+									a(href="/guestbook") Please log in here to Blogsalot            	   
 								
 								form(method='POST', action='/', autocomplete="off")
-									Label(for="title") Title of your message 
-									input(name="title", type="text", id="title" placeholder="Add a title")
-
-									Label(for="message") Please leave here your message  
-									input(name="message", type="text", id="message" placeholder="Write your message here")
+									Label(for="email") Email 
+									input(name="email", type="email", id="email" placeholder="Email adress")
+									Label(for="password") Pasword 
+									input(name="password", type="password", id="password" placeholder="Secrate")
 									input(type="submit", value="Submit")
 
 	footer.page-footer
 		div.container
 			div.row
 				div.col.l6.s12
-					h5.white-text Guesthouse
-					p.grey-text.text-lighten-3 Thank you for visiting our gasthouses gastboook
-					p.grey-text.text-lighten-3 If you like to keep in touch follow us on social media
+					h5.white-text Blogsalot
+					p.grey-text.text-lighten-3 Thank you for visiting Blogsalot
+					p.grey-text.text-lighten-3 and keep on blogging Blogsalotters
 				div.col.l4.offset-l2.s12
 					h5.white-text Social media
 					ul.grey-text.text-lighten-3

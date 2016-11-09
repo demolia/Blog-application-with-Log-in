@@ -21,6 +21,22 @@ html
 					h1.center.white-text Please leave a message
 
 		main
+			div.container
+				div.row
+					div.col.l8.offset-l2
+						div#topcard.card
+							div.card-content.z-depth-5
+								p
+									a(href="/guestbook") Please Sign-up here for BlogsAlot and become a Blogsalotter          	   
+								
+								form(method='POST', action='/', autocomplete="off")
+									Label(for="name") Name
+									input(name="name", type="text", id="name" placeholder="Name")
+									Label(for="email") Email 
+									input(name="email", type="email", id="email" placeholder="Email adress")
+									Label(for="password") Pasword 
+									input(name="password", type="password", id="password" placeholder="Secrate")
+									input(type="submit", value="Submit")
 
 	footer.page-footer
 		div.container
