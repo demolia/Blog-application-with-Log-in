@@ -1,0 +1,46 @@
+
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+nav, footer.page-footer {
+	background-color: #795548;
+}
+
+#logo {
+	padding-left: 10px;
+}
+
+#topcard {
+	margin-top: -80px;
+}
+
+#header {
+	min-height: 300px;
+	background-color: grey;
+	background-image: url('/resources/skyline.png');
+	background-position: center;
+	background-size: cover;
+}
+
+main {
+	flex: 1 0 auto;
+}
+
+
+nav a.button-collapse {
+    display: inline-table;
+}
+
+.navtext{
+	text-shadow: 2px 2px black;
+	font-size: 150%;
+	padding-left: 7pc;
+	margin-top: -45px;
+}
+
+.heroimg {
+	width: 100px;
+	border-radius: 100%;
+}

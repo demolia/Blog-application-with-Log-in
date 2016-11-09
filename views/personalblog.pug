@@ -1,0 +1,42 @@
+html
+	head
+		title= "Blogsalot"
+		link( href="/resources/css/materialize.min.css" type="text/css" rel="stylesheet" )
+		link( href="/resources/main.css" type="text/css" rel="stylesheet" )
+		link( href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+	body
+		nav
+			.nav-wrapper
+				a.brand-logo(href='/') Home
+				ul#nav-mobile.right.hide-on-med-and-down
+					li
+						a(href='/sign-up') Sign up Here 
+					li
+						a(href='/blogs') Blogsalot Blogs
+					li
+						a(href='/personalblog') Personal
+		div#header.valign-wrapper
+			div.row.valign
+				div.col.l12
+					h1.center.white-text Please leave a message
+
+		main
+
+	footer.page-footer
+		div.container
+			div.row
+				div.col.l6.s12
+					h5.white-text Blogsalot
+					p.grey-text.text-lighten-3 Thank you for visiting Blogsalot
+					p.grey-text.text-lighten-3 and keep on blogging Blogsalotters
+				div.col.l4.offset-l2.s12
+					h5.white-text Social media
+					ul.grey-text.text-lighten-3
+						li Git hub
+						li Twitter
+						li Facebook
+		div.footer-copyright
+			div.container.grey-text © 2025 Copyright Text
+	script( src="/resources/jquery-3.1.1.min.js" )
+	script( src="/resources/js/materialize.min.js" )
+	script( src="/resources/main.js" )
