@@ -15,13 +15,29 @@ html
 						a(href='/blogs') Blogsalot Blogs
 					li
 						a(href='/personalblog') Personal
+					li 
+
 		div#header.valign-wrapper
 			div.row.valign
 				div.col.l12
 					h1.center.white-text Please leave a message
 
 		main
-
+			each blogs in blog.reverse()
+				div.container
+					div.row
+						div.col.l8.offset-l2
+							div.card
+								div.card-content.z-depth-5.slit
+									ul
+										li
+										p Writer: #{blogs.userId}
+										li 
+										p Title:  #{blogs.title}
+										li 
+										p #{blogs.body}
+										
+										<br> 
 	footer.page-footer
 		div.container
 			div.row

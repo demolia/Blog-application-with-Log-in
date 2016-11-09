@@ -21,7 +21,19 @@ html
 					h1.center.white-text Please leave a message
 
 		main
-			
+			each blogs in blog.reverse()
+				div.container
+					div.row
+						div.col.l8.offset-l2
+							div.card
+								div.card-content.z-depth-5.slit
+									ul
+										li
+										p Writer: #{blogs.user.name}
+										li 
+										p Title: #{blogs.title}
+										li 
+										p #{blogs.body}
 
 
 
