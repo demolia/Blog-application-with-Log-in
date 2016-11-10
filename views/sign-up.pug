@@ -27,16 +27,16 @@ html
 						div#topcard.card
 							div.card-content.z-depth-5
 								p
-									a(href="#") Please Sign-up here for BlogsAlot and become a Blogsalotter          	   
-								
-								form(method='POST', action='/', autocomplete="off")
-									Label(for="name") Name
-									input(name="name", type="text", id="name" placeholder="Name")
+									a(href="#") Please Sign-up here for BlogsAlot and become a Blogsalotter        
+								form(method='POST', action='/sign', autocomplete="off")
+									Label(for="name") Name or your internet alter ego (we perfer your alter ego)
+									input(name="name", type="text", id="name" placeholder="Be creative !Jimmy instead of Jimmy is not creative!")
 									Label(for="email") Email 
 									input(name="email", type="email", id="email" placeholder="Email adress")
 									Label(for="password") Pasword 
-									input(name="password", type="password", id="password" placeholder="Secrate")
+									input(name="password", type="password", id="password" placeholder="Secreate")
 									input(type="submit", value="Submit")
+								p= message
 
 	footer.page-footer
 		div.container

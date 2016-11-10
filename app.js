@@ -57,7 +57,10 @@ Blog.belongsTo ( User )
 // Setting up the App.Get so that the pages can be renderd. 
 app.get ('/', (req, res) => {
 	console.log ('Index page loaded')
-	res.render('index')
+	res.render('index' , {
+		message: req.query.message,
+		user: req.session.user
+	})
 })
 
 // creating a log-in function
@@ -91,7 +94,10 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function (request, r
 
 app.get ('/sign-up', (req, res) => {
 	console.log ('Sign-up page loaded')
-	res.render('sign-up')
+	res.render('sign-up', {
+		message: req.query.message,
+		user: req.session.user
+	})
 })
 
 app.get ('/blogs', (req, res) => {
@@ -121,28 +127,30 @@ app.get('/personalblog', function (request, response) {
 
 	}
 })
+// , bodyParser.urlencoded({extended: true}
 
-
-app.post('/sign', bodyParser.urlencoded({extended: true}), function (request, response) {
+app.post('/sign', bodyParser.urlencoded({extended: true}) , function (request, response) {
 	if (request.body.name.length === 0) {
-			response.redirect('/?message=' + encodeURIComponent("Please fill out your name."));
-			return;
+			response.send('sign-up/?message=' + encodeURIComponent("Please fill out your name."))
+			return
 	}
 	if(request.body.email.length === 0) {
-		response.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
-		return;
+		response.send('sign-up/?message=' + encodeURIComponent("Please fill out your email address."))
+		return
 	}
 
 	if(request.body.password.length === 0) {
-		response.redirect('/?message=' + encodeURIComponent("Please fill out your password."));
-		return;
+		response.send('sign-up/?message=' + encodeURIComponent("Please fill out your password."))
+		return
 	}
-		Person.create({
+	// console.log (request.body.password )
+		User.create( {
             name: request.body.name,
             email: request.body.email,
             password: request.body.password 
         }).then ( register => {
-        	response.send('You are Now Officially a BlogsAlotter!')
+        	// console.log (request.body.password )
+        	response.redirect('/?message=' + encodeURIComponent('You are Now Officially a BlogsAlotter!'))
         })
 })
 
