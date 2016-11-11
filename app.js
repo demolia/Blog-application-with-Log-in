@@ -127,8 +127,8 @@ app.get('/personalblog', function (request, response) {
 
 	}
 })
-// , bodyParser.urlencoded({extended: true}
 
+// CREATING A NEW USER IN THE DATABASE. 
 app.post('/sign', bodyParser.urlencoded({extended: true}) , function (request, response) {
 	if (request.body.name.length === 0) {
 			response.send('sign-up/?message=' + encodeURIComponent("Please fill out your name."))
@@ -151,6 +151,29 @@ app.post('/sign', bodyParser.urlencoded({extended: true}) , function (request, r
         }).then ( register => {
         	// console.log (request.body.password )
         	response.redirect('/?message=' + encodeURIComponent('You are Now Officially a BlogsAlotter!'))
+        })
+})
+
+
+// CREATING A NEW BLOG
+app.post('/post', bodyParser.urlencoded({extended: true}) , function (request, response) {
+	if (request.body.blog.length === 0) {
+			response.send('sign-up/?message=' + encodeURIComponent("Please give your blog a title."))
+			return
+	}
+	if(request.body.blogtext.length === 0) {
+		response.send('sign-up/?message=' + encodeURIComponent("It would be nice if you typed something."))
+		return
+	}
+
+	// console.log (request.body.blog )
+		Blog.create( {
+            title: request.body.blog,
+            body: request.body.blogtext,
+            userId: request.session.user.id 
+        }).then ( register => {
+        	// console.log (request.body.password )
+        	response.redirect('/blogs?message=' + encodeURIComponent('Thank you for creating a blog, BlogsAlotter'))
         })
 })
 

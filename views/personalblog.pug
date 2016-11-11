@@ -23,15 +23,28 @@ html
 					h1.center.white-text Please leave a message
 
 		main
+			div.container
+					div.row
+						div.col.l8.offset-l2
+							div#topcard.card
+								div.card-content.z-depth-5.slit
+									form(method='POST', action='/post', autocomplete="off")
+										Label(for="blog") Title of your Blog
+										input(name="blog", type="text", id="blog" placeholder="Guess what, type your title here")
+										Label(for="blogtext") What would you like to tell the world? 
+										input(name="blogtext", type="text", id="blogtext" placeholder="Tell us what you think or feel")
+										input(type="submit", value="Submit")
+									p= message
+
 			each blogs in blog.reverse()
 				div.container
 					div.row
 						div.col.l8.offset-l2
-							div.card
+							div#blogcard.card
 								div.card-content.z-depth-5.slit
 									ul
 										li
-										p Writer: #{blogs.userId}
+										p Writer: #{blogs.user.name}
 										li 
 										p Title:  #{blogs.title}
 										li 
