@@ -29,10 +29,12 @@ html
 							div#topcard.card
 								div.card-content.z-depth-5.slit
 									form(method='POST', action='/post', autocomplete="off")
-										Label(for="blog") Title of your Blog
-										input(name="blog", type="text", id="blog" placeholder="Guess what, type your title here")
-										Label(for="blogtext") What would you like to tell the world? 
-										input(name="blogtext", type="text", id="blogtext" placeholder="Tell us what you think or feel")
+										div.input-field
+											input(name="blog", type="text", id="blog", class="validate")
+											Label(for="blog") Title of your Blog
+										div.input-field
+											Label(for="blogtext") What would you like to tell the world? 
+											input(name="blogtext", type="text", id="blogtext", class="validate")
 										input(type="submit", value="Submit")
 									p= message
 

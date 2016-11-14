@@ -3,7 +3,8 @@ const express 		= require('express')
 const bodyParser 	= require('body-parser')
 const pg 			= require('pg')
 const sequelize 	= require('sequelize')
-const session 		= require('express-session');
+const session 		= require('express-session')
+const bcrypt 		= require('bcrypt');
 const app 			= express()
 
 
@@ -20,10 +21,13 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
+
 // test is front end and backend are working together
 app.get ('/ping', (req, res) => {
 	res.send('pong')
 })
+
+
 
 // setting up sessions in the database
 app.use(session({
@@ -32,11 +36,14 @@ app.use(session({
 	saveUninitialized: false
 }));
 
+
+
 // defining the database 
 let db = new sequelize ('users', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
 	server: 'localhost',
 	dialect: 'postgres'
 } )
+
 
 // define models
 let User = db.define( 'user', {
@@ -54,6 +61,8 @@ let Comment = db.define ('comments', {
 	comment: sequelize.STRING
 })
 
+
+
 // define relations
 User.hasMany( Blog )
 Blog.belongsTo ( User )
@@ -64,6 +73,8 @@ Blog.hasMany ( Comment )
 Comment.belongsTo( User )
 Comment.belongsTo( Blog )
 
+
+
 // Setting up the App.Get so that the pages can be renderd. 
 app.get ('/', (req, res) => {
 	console.log ('Index page loaded')
@@ -72,6 +83,7 @@ app.get ('/', (req, res) => {
 		user: req.session.user
 	})
 })
+
 
 // creating a log-in function
 app.post('/login', bodyParser.urlencoded({extended: true}), function (request, response) {
@@ -90,9 +102,13 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function (request, r
 			email: request.body.email
 		}
 	}).then(function (user) {
-		if (user !== null && request.body.password === user.password) {
-			request.session.user = user;
-			response.redirect('personalblog');
+		if (user !== null) {
+			bcrypt.compare(request.body.password, user.password, function(err, res) {
+    			if (res == true) {
+    				request.session.user = user;
+					response.redirect('personalblog');
+				}
+			})
 			console.log ('Whoop Whoop')
 		} else {
 			response.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
@@ -101,6 +117,7 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function (request, r
 		response.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
 	});
 });
+
 
 //// Make logout work (sends user to a new page, then redirects it to  home page again)
 app.get('/logout', function (request, response) {
@@ -113,6 +130,7 @@ app.get('/logout', function (request, response) {
 
 });
 
+// Making the link to the sign-up page.
 app.get ('/sign-up', (req, res) => {
 	console.log ('Sign-up page loaded')
 	res.render('sign-up', {
@@ -166,14 +184,16 @@ app.post('/sign', bodyParser.urlencoded({extended: true}) , function (request, r
 		return
 	}
 	// console.log (request.body.password )
-		User.create( {
-            name: request.body.name,
-            email: request.body.email,
-            password: request.body.password 
-        }).then ( register => {
+		bcrypt.hash(request.body.password , 5, function(err, hash) {
+	    	User.create( {
+	            name: request.body.name,
+	            email: request.body.email,
+	            password: hash		
+	        }).then ( register => {
         	// console.log (request.body.password )
         	response.redirect('/?message=' + encodeURIComponent('You are Now Officially a BlogsAlotter!'))
         })
+	})
 })
 
 
@@ -199,6 +219,7 @@ app.post('/post', bodyParser.urlencoded({extended: true}) , function (request, r
         })
 })
 
+// Seeing a single post
 app.get('/viewsinglepost', function (req, res) {
 	var message = req.query.message;
 	var user = req.session.user;
@@ -210,7 +231,15 @@ app.get('/viewsinglepost', function (req, res) {
 		console.log('\nThe browser will now display one post.')
 		Blog.findAll({
 			where: {id: blogid},
-			include: [User, Comment] //include users (namelijk wie de comment geplaatst heeft) 
+			include: [
+				{
+					model: User
+				},
+				{
+					model: Comment,
+					include: [User]
+				}
+			]
 			//en include posts (dat zou er maar een moeten zijn)
 			// 	where: {userId: user.id}
 		}).then(function(comments) {
@@ -237,28 +266,32 @@ app.post('/viewsinglepost', function (req, res) {
 // Creating users for the database
 db.sync ( {force: true} ).then( () => {
 	console.log ( 'Synced')
-	User.create ({
-		name: 'Jimmy',
-		email: 'jimmyvoskuil@msn.com',
-		password: '1234'
-	}).then (user => {
-		user.createBlog( {
-			title: 'My first blog',
-			body: 'to much to type'
-		})
-		user.createBlog( {
-			title: 'My second blog',
-			body: 'to much to type in here'
+	bcrypt.hash('1234', 5, function(err, hash) {
+		User.create ({
+			name: 'Jimmy',
+			email: 'jimmyvoskuil@msn.com',
+			password: hash
+		}).then (user => {
+			user.createBlog( {
+				title: 'My first blog',
+				body: 'to much to type'
+			})
+			user.createBlog( {
+				title: 'My second blog',
+				body: 'to much to type in here'
+			})
 		})
 	})
-	User.create ({
-		name: 'Mentor',
-		email: 'mentor@gmail.com',
-		password: '1234'
-	}).then (user => {
-		user.createBlog( {
-			title: 'Lo0ok',
-			body: 'I can type'
+	bcrypt.hash('1234', 5, function(err, hash) {	
+		User.create ({
+			name: 'Mentor',
+			email: 'mentor@gmail.com',
+			password: hash
+		}).then (user => {
+			user.createBlog( {
+				title: 'Lo0ok',
+				body: 'I can type'
+			})
 		})
 	})
 }) 

@@ -53,7 +53,7 @@ html
 								p #{data[0].body}
 								p #{data[0].name}
 								br
-			each thing in data[0].comments
+			each comment in data[0].comments
 				div.container
 					div.row
 						div.col.l8.offset-l2
@@ -62,7 +62,7 @@ html
 									h3 Comments:
 										//- Hier moet nog de blog zelf komen
 										//- Hier moet nog de gebruiker van de blog komen
-										p #{thing.comment} - #{thing.name}
+										p #{comment.comment} - #{comment.user.name}
 
 			div.container
 				div.row
