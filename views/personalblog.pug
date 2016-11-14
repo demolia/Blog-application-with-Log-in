@@ -10,7 +10,7 @@ html
 				a.brand-logo(href='/') Home
 				ul#nav-mobile.right.hide-on-med-and-down
 					li
-						a(href='/sign-up') Sign up Here 
+						a(href="logout") Logout
 					li
 						a(href='/blogs') Blogsalot Blogs
 					li
@@ -49,8 +49,11 @@ html
 										p Title:  #{blogs.title}
 										li 
 										p #{blogs.body}
+										a(href="viewsinglepost?id=" + blogs.id ) View this post
+									//- form(method='POST', action='/comment', autocomplete="off")
+									//- 	Label(for="blog") Leave a comment under this blog
+									//- 	input(name="blog", type="text", id="comment" placeholder="Guess what, type your comment here")
 										
-										<br> 
 	footer.page-footer
 		div.container
 			div.row

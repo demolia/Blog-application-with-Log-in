@@ -14,6 +14,11 @@ nav, footer.page-footer {
 
 #topcard {
 	margin-top: -80px;
+	width: 650px;
+}
+
+#blogcard {
+	width: 650px;
 }
 
 #header {
@@ -46,5 +51,5 @@ nav a.button-collapse {
 }
 
 .spil {
-	
+
 }

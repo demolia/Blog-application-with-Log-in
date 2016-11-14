@@ -50,9 +50,19 @@ let Blog = db.define ( 'blog', {
 	body: sequelize.STRING,
 } )
 
+let Comment = db.define ('comments', {
+	comment: sequelize.STRING
+})
+
 // define relations
 User.hasMany( Blog )
 Blog.belongsTo ( User )
+
+User.hasMany ( Comment )
+Blog.hasMany ( Comment )
+
+Comment.belongsTo( User )
+Comment.belongsTo( Blog )
 
 // Setting up the App.Get so that the pages can be renderd. 
 app.get ('/', (req, res) => {
@@ -92,6 +102,17 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function (request, r
 	});
 });
 
+//// Make logout work (sends user to a new page, then redirects it to  home page again)
+app.get('/logout', function (request, response) {
+	request.session.destroy(function(error) {
+		if(error) {
+			throw error;
+		}
+		response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
+	})
+
+});
+
 app.get ('/sign-up', (req, res) => {
 	console.log ('Sign-up page loaded')
 	res.render('sign-up', {
@@ -117,7 +138,8 @@ app.get('/personalblog', function (request, response) {
 		Blog.findAll ( {
 			where: {
 				userId: request.session.user.id
-			}
+			},
+			include: [ User ]
 		} ).then (blogs => {
 			console.log (request.session.user)
 			response.render('personalblog', {
@@ -177,6 +199,41 @@ app.post('/post', bodyParser.urlencoded({extended: true}) , function (request, r
         })
 })
 
+app.get('/viewsinglepost', function (req, res) {
+	var message = req.query.message;
+	var user = req.session.user;
+	var blogid = req.query.id;
+	console.log("CHECK THIS AWESOME POSTID: " + blogid)
+	if (user === undefined) {
+		res.redirect('/?message=' + encodeURIComponent("Please log in to view this post."));
+	} else {
+		console.log('\nThe browser will now display one post.')
+		Blog.findAll({
+			where: {id: blogid},
+			include: [User, Comment] //include users (namelijk wie de comment geplaatst heeft) 
+			//en include posts (dat zou er maar een moeten zijn)
+			// 	where: {userId: user.id}
+		}).then(function(comments) {
+			res.render('viewsinglepost', {data: comments, currentUser: user, message: message})
+			console.log(comments)
+		});
+	}
+});
+
+//// Make certain post page work: use ID of a post
+app.post('/viewsinglepost', function (req, res) {
+	var blogid = req.query.id;
+	console.log(blogid)
+	Comment.create( {
+		comment: req.body.comment,
+		userId: req.session.user.id,
+		blogId: blogid
+		// postId: MOET NOG GEKOPPELD WORDEN NAV MEESTUREN VAN EEN ID
+	})
+	res.redirect('viewsinglepost?id=' + req.query.id)
+})
+
+
 // Creating users for the database
 db.sync ( {force: true} ).then( () => {
 	console.log ( 'Synced')
@@ -205,40 +262,6 @@ db.sync ( {force: true} ).then( () => {
 		})
 	})
 }) 
-
-
-
-
-
-// app.get ('/hats', (req, res) => {
-// 	Hat.findAll ( {
-// 		include: [{
-// 			model: User,
-// 			attributes: [ 'name']
-// 		}]
-// 	} ).then (hats => {
-// 		res.send (hats)
-// 	})
-// })
-
-// app.get('/users', (req, res) => {
-// 	User.findAll ( {
-// 		attributes: [ 'name' ],
-// 		include: [ Hat ]
-// 	}).then (users => {
-// 		res.send (users)
-// 	})
-// } )
-
-
-
-
-
-
-
-
-
-
 
 //This will make sure when we run nodemon that the app can be opened on localhost:8000
 app.listen (8000, () => {
