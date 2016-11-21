@@ -60,8 +60,8 @@ html
 							div.card
 								div.card-content.z-depth-5
 									h3 Comments:
-										//- Hier moet nog de blog zelf komen
-										//- Hier moet nog de gebruiker van de blog komen
+										//- Here the comments of each user are displayed.
+										//- the magic happens at the backend here not the front-end.
 										p #{comment.comment} - #{comment.user.name}
 
 			div.container
@@ -72,11 +72,10 @@ html
 								form(method='post', action= '/viewsinglepost?id=' + data[0].id)
 									input(name='comment', type='text', id='comment', placeholder = 'comment' required)
 									input(type='Submit', value='Comment', class='button')
-																//- dit moeten alleen de comments zijn die bij een bepaalde blog horen (ID)
-																				
-																			form(method='post', action= '/viewsinglepost?id=' + data[0].id)
-																				input(name='comment', type='text', id='comment', placeholder = 'comment' required)
-																				input(type='Submit', value='Comment', class='button')
+									//- Added comment section to each post.
+									//- these comments are displayed per post.
+									//- The post action are post with the id of the post.
+									//- this will make sure that each post will contain its own comments
 
 	footer.page-footer
 		div.container

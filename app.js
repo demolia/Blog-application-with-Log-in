@@ -96,7 +96,7 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function (request, r
 		response.redirect('/?message=' + encodeURIComponent("Please fill out your password."));
 		return;
 	}
-
+	// In the database we are looking for one-User which has the email that matches the email that was put in.
 	User.findOne({
 		where: {
 			email: request.body.email
@@ -108,15 +108,23 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function (request, r
     				request.session.user = user;
 					response.redirect('personalblog');
 				}
+				// bcrypt is hashing the password and making sure it is saved secure in my database.
+				// the compare must between the whole bracket to make sure the password can be compared.
+				// this cant be done with only bcrypt compare the password.
 			})
-			console.log ('Whoop Whoop')
+			// console.log ('Whoop Whoop') 
+			// test if a user is created
 		} else {
 			response.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
+			// if the users is not null (not undifined) and the password is the same as password
+			//then it will be logged in else it will be redirected to index and told invalid password or email.
 		}
 	}, function (error) {
 		response.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
-	});
-});
+		// When everything goed wrong between server and database, the user will be told his email or password is invalid
+		// This will be told instead of telling the telling the user something terrible went wrong 
+	}) 
+})
 
 
 //// Make logout work (sends user to a new page, then redirects it to  home page again)
@@ -199,6 +207,7 @@ app.post('/sign', bodyParser.urlencoded({extended: true}) , function (request, r
 
 // CREATING A NEW BLOG
 app.post('/post', bodyParser.urlencoded({extended: true}) , function (request, response) {
+	// Simple backend check if both fields are filled in correctly.
 	if (request.body.blog.length === 0) {
 			response.send('sign-up/?message=' + encodeURIComponent("Please give your blog a title."))
 			return
@@ -287,6 +296,7 @@ db.sync ( {force: true} ).then( () => {
 			name: 'Mentor',
 			email: 'mentor@gmail.com',
 			password: hash
+
 		}).then (user => {
 			user.createBlog( {
 				title: 'Lo0ok',

@@ -3,10 +3,19 @@
 
 $(document).ready(function() {
 
-// Initialize collapse button
-$(".button-collapse").sideNav();
-// Initialize collapsible (uncomment the line below if you use the dropdown variation)
-//$('.collapsible').collapsible();
+	// Initialize collapse button
+	$(".button-collapse").sideNav();
+	// Initialize collapsible (uncomment the line below if you use the dropdown variation)
+	//$('.collapsible').collapsible();
+
+	function validateForm() {
+	    var x = document.forms["myForm"]["email"].value;
+	    if (x == "") {
+	       console.log("Name must be filled out");
+	        return false;
+	    }
+	}
+
 
 
 })

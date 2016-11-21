@@ -15,27 +15,29 @@ html
 						a(href='/blogs') Blogsalot Blogs
 					li
 						a(href='/personalblog') Personal
+					//- This is the returning nav bar, find something else for the log-in or log-out problem.
+					
 		div#header.valign-wrapper
-			div.row.valign
+			div.row.valign.firstheader
 				div.col.l12
-					h1.center.white-text Please leave a message
+					
 		main
 			div.container
 				div.row
 					div.col.l8.offset-l2
 						div#topcard.card
-							div.card-content.z-depth-5
+							div.card-content.z-depth-5.firstcard
 								p
 									a(href="#") Please log in here to Blogsalot            	   
 								
-								form(method='POST', action='/login', autocomplete="off")
+								form(name="myForm" method='POST', action='/login', autocomplete="off" onsubmit="return validateForm()")
 									Label(for="email") Email 
 									input(name="email", type="email", id="email" placeholder="Email adress")
 									Label(for="password") Pasword 
 									input(name="password", type="password", id="password" placeholder="Secrate")
 									input(type="submit", value="Submit")
 									p= message
-	footer.page-footer
+	footer#footerpage.page-footer
 		div.container
 			div.row
 				div.col.l6.s12

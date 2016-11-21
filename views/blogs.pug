@@ -4,7 +4,7 @@ html
 		link( href="/resources/css/materialize.min.css" type="text/css" rel="stylesheet" )
 		link( href="/resources/main.css" type="text/css" rel="stylesheet" )
 		link( href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
-	body
+	body 
 		nav
 			.nav-wrapper
 				a.brand-logo(href='/') Home
@@ -18,9 +18,11 @@ html
 		div#header.valign-wrapper
 			div.row.valign
 				div.col.l12
-					h1.center.white-text See here all blogs
+					h1.center.white-text See what all bloggsalloters speak about
 					p.center.white-text 
 						p= message
+		//- Creating a nav bar and hero  section above.
+		//- p= is the message that is send with the URL from app.js
 		main
 			each blogs in blog.reverse()
 				div.container
@@ -37,7 +39,9 @@ html
 										p #{blogs.body}
 										a(href="viewsinglepost?id=" + blogs.id ) View this post
 
-
+		//- Here all are shown together with the name of the writer, this was a huge challege.
+		//- the problem was in the backend, the the blog information had to incluse the user and incluse the user name.
+		//- this was the writers id could have been added.
 
 	footer.page-footer
 		div.container

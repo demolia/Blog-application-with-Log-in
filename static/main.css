@@ -5,7 +5,12 @@ body {
 	flex-direction: column;
 }
 nav, footer.page-footer {
-	background-color: #795548;
+	background-color: #222;
+    border-color: #080808;
+}
+
+#footerpage {
+	margin-top: -41px;
 }
 
 #logo {
@@ -15,18 +20,30 @@ nav, footer.page-footer {
 #topcard {
 	margin-top: -80px;
 	width: 650px;
+	word-wrap: break-word;
+}
+
+
+.firstcard {
+	margin-top: -500px;
 }
 
 #blogcard {
 	width: 650px;
+	word-wrap: break-word;
 }
 
 #header {
 	min-height: 300px;
-	background-color: grey;
-	background-image: url('/resources/skyline.png');
+	background-image: url('/resources/castle4.jpeg');
 	background-position: center;
 	background-size: cover;
+}
+
+.firstheader {
+	height: 100%;
+	background-image: url('/resources/castle2.jpg');
+	width: 100%;
 }
 
 main {
